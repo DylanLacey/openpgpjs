@@ -2,14 +2,17 @@ module.exports = function(grunt) {
 
   var version = grunt.option('release');
   var fs = require('fs');
-  var browser_capabilities;
-
-  if (process.env.SELENIUM_BROWSER_CAPABILITIES !== undefined) {
-    browser_capabilities = JSON.parse(process.env.SELENIUM_BROWSER_CAPABILITIES);
+  var browser_capabilities = {
+    browserName: "safari",
+    platform: "OS X 10.13"
   }
 
+  // if (process.env.SELENIUM_BROWSER_CAPABILITIES !== undefined) {
+  //   browser_capabilities = JSON.parse(process.env.SELENIUM_BROWSER_CAPABILITIES);
+  // }
+
   var getSauceKey = function getSaucekey () {
-    return '60ffb656-2346-4b77-81f3-bc435ff4c103';
+    return process.env.SAUCE_ACCESS_KEY;
   };
 
   // Project configuration.
@@ -218,13 +221,14 @@ module.exports = function(grunt) {
     'saucelabs-mocha': {
       all: {
         options: {
-          username: 'openpgpjs',
+          username: process.env.SAUCE_USERNAME,
           key: getSauceKey,
-          urls: [
-            'http://localhost:3000/test/unittests.html?saucelabs=true&grep=' + encodeURIComponent('Sauce Labs Group 1'),
-            'http://localhost:3000/test/unittests.html?saucelabs=true&grep=' + encodeURIComponent('Sauce Labs Group 2'),
-            'http://localhost:3000/test/unittests.html?saucelabs=true&grep=' + encodeURIComponent('^(?!.*Sauce Labs Group [1-2])')
-          ],
+          urls: ['http://localhost:3000/test/unittests.html?saucelabs=true'],
+          // urls: [
+          //   'http://localhost:3000/test/unittests.html?saucelabs=true&grep=' + encodeURIComponent('Sauce Labs Group 1'),
+          //   'http://localhost:3000/test/unittests.html?saucelabs=true&grep=' + encodeURIComponent('Sauce Labs Group 2'),
+          //   'http://localhost:3000/test/unittests.html?saucelabs=true&grep=' + encodeURIComponent('^(?!.*Sauce Labs Group [1-2])')
+          // ],
           build: process.env.TRAVIS_BUILD_ID,
           testname: 'Sauce Unit Test for openpgpjs',
           browsers: [browser_capabilities],

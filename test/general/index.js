@@ -3,10 +3,10 @@ describe('General', function () {
   require('./armor.js');
   require('./packet.js');
   require('./keyring.js');
-  describe('[Sauce Labs Group 1]', function() {
+  // describe('[Sauce Labs Group 1]', function() {
     require('./signature.js');
     require('./key.js');
-  });
+  // });
   require('./openpgp.js');
   require('./hkp.js');
   require('./wkd.js');
